@@ -1,37 +1,64 @@
 :root {
-  --link-color: #697fb3;
-  --link-color-hover: black;
+  --link-color: #5f77ab;
+  --link-color-hover: #25365b;
 
-  --input-color: #99a3ba;
-  --input-border: #cdd9ed;
+  --input-color: #6a7896;
+  --input-border: #ccd6ea;
   --input-background: #fff;
-  --input-placeholder: #cbd1dc;
+  --input-placeholder: #b7c1d6;
 
-  --input-border-focus: #275efe;
+  --input-border-focus: #2f5fb8;
 
   --group-color: var(--input-color);
   --group-border: var(--input-border);
-  --group-background: #eef4ff;
+  --group-background: #edf3ff;
 
   --group-color-focus: #fff;
   --group-border-focus: var(--input-border-focus);
-  --group-background-focus: #678efe;
+  --group-background-focus: #5a80d6;
+  --control-height: 30px;
+}
+
+[data-theme="dark"] {
+  --link-color: #8cb3ff;
+  --link-color-hover: #c4d8ff;
+
+  --input-color: #c0ccdf;
+  --input-border: #43506b;
+  --input-background: #1e2532;
+  --input-placeholder: #7f8ba4;
+
+  --input-border-focus: #8ab4ff;
+
+  --group-color: #c5d1e5;
+  --group-border: #43506b;
+  --group-background: #2b3345;
+
+  --group-color-focus: #0f1625;
+  --group-border-focus: #8ab4ff;
+  --group-background-focus: #8ab4ff;
 }
 
 .colors-list {
-  margin: 1em 0 0;
+  margin: 8px 0 0;
   display: grid;
+  border-radius: 6px;
+  border: 1px solid var(--group-border);
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .color-row {
   display: grid;
-  grid-template-columns: minmax(80px, 120px) 1fr 1fr 1fr 1fr;
+  grid-template-columns: minmax(88px, 112px) 1fr 1fr 1fr 1fr;
+  min-width: 440px;
 }
 
 .colorItem {
   justify-self: start;
-  line-height: 2em;
+  line-height: 1.8em;
 }
+
 .colorItem > * {
   background: none;
 }
@@ -40,32 +67,37 @@
 .gDiff,
 .bDiff,
 .absDiff {
-  line-height: 2em;
+  line-height: 1.8em;
   min-width: 35px;
   width: 100%;
-  background: rgb(255, 0, 0, 10%);
+  font-size: 0.9rem;
+  text-align: center;
+  background: rgb(255 0 0 / 10%);
 }
+
 .gDiff {
-  background: rgb(0, 255, 0, 10%);
+  background: rgb(0 255 0 / 10%);
 }
+
 .bDiff {
-  background: rgb(0, 0, 255, 10%);
+  background: rgb(0 0 255 / 10%);
 }
+
 .absDiff {
-  background: rgb(0, 0, 0, 10%);
+  background: rgb(0 0 0 / 10%);
 }
 
 .colors-list__color {
-  padding: 0.3rem 0.5rem 0.3rem 2.2rem;
-  margin: 0.1rem 0.3rem;
+  padding: 0.2rem 0.4rem 0.2rem 1.8rem;
+  margin: 0.1rem 0.2rem;
   cursor: pointer;
   color: var(--link-color);
   border: 0;
   text-align: right;
   position: relative;
   text-transform: uppercase;
-  font-size: 125%;
-  line-height: 65%;
+  font-size: 1rem;
+  line-height: 1;
 }
 
 .colors-list__color:hover {
@@ -77,15 +109,19 @@
   position: absolute;
   background: var(--color);
   border-radius: 50px;
-  height: 1.2rem;
-  width: 1.2rem;
+  height: 0.95rem;
+  width: 0.95rem;
   left: 5px;
-  top: 1px;
+  top: 2px;
   box-shadow: 0 0 0 1px rgb(0 0 0 / 50%);
 }
 
 .colorInputContainer {
-  display: inline-block;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0 0 10px;
 }
 
 .colorInput {
@@ -94,45 +130,54 @@
   align-items: center;
 }
 
-.colorInputField {
-  width: 120px;
-  float: left;
-  display: flex;
-  margin: 5px 0;
-  padding-right: 15px;
+.inputColorSwatch {
+  width: 28px;
+  aspect-ratio: 1;
+  height: var(--control-height);
+  margin-left: 0;
+  border-radius: 0;
+  border: 1px solid var(--group-border);
+  background: var(--preview-color);
+  /*box-shadow: inset 0 0 0 1px rgb(255 255 255 / 20%);
+
+   */
 }
 
-.colorInput:first-child {
-  margin-right: 5px;
+.colorInputField {
+  width: 116px;
+  display: flex;
+  margin: 0;
+  padding-right: 15px;
 }
 
 .colorInput > label,
 .colorInput > input {
   margin: 0;
-  line-height: 22px;
-  padding: 6px;
-
+  height: var(--control-height);
+  line-height: calc(var(--control-height) - 2px);
+  padding: 0 8px;
+  font-size: 0.9rem;
   font-family: inherit;
-
   box-sizing: border-box;
   color: var(--group-color);
   border: solid 1px var(--group-border);
-  transition: background 0.3s ease, border 0.3s ease, color 0.3s ease;
+  transition: background 0.2s ease, border 0.2s ease, color 0.2s ease;
 }
 
 .colorInput > label {
   border-radius: 6px 0 0 6px;
   background: var(--group-background);
   font-weight: 700;
-  min-width: 7em;
+  min-width: 6.2em;
   text-align: center;
+  border-right: none;
 }
 
 .colorInput > input {
   border-radius: 0 6px 6px 0;
   border-left: none;
   min-width: 90px;
-  width: 15vw;
+  width: 120px;
   color: var(--input-color);
   background: var(--input-background);
 }
@@ -147,7 +192,7 @@
 }
 
 .colorInput > input:hover {
-  background: ghostwhite;
+  background: color-mix(in srgb, var(--input-background) 92%, #ffffff 8%);
 }
 
 .colorInput:focus-within > label {
@@ -164,8 +209,8 @@
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 1.1em;
-  color: #888;
+  font-size: 0.95em;
+  color: #7b869c;
   padding: 0;
   line-height: 1;
   z-index: 2;
@@ -174,26 +219,51 @@
 .header-row {
   background: var(--group-background);
   color: var(--group-color);
-  padding: 5px;
+  padding: 4px;
   border-bottom: 1px solid var(--group-border);
-  border-radius: 6px 6px 0 0;
 }
 
 .header-row > div {
   font-weight: 700;
-  font-size: 1.2em;
+  font-size: 0.9rem;
   padding: 0 5px;
 }
 
-.colors-list {
-  border-radius: 6px;
-  border: 1px solid var(--group-border);
+.header-row > div:not(:first-child) {
+  text-align: center;
 }
 
-.colors-list > .color-row:last-child > div:first-child {
-  border-radius: 0 0 0 6px;
-}
+@media (max-width: 640px) {
+  :root {
+    --control-height: 30px;
+  }
 
-.colors-list > .color-row:last-child > div:last-child {
-  border-radius: 0 0 6px 0;
+  .colorInputContainer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+
+  .colorInput {
+    width: 100%;
+  }
+
+  .colorInput > label {
+    min-width: 7.6em;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.15;
+    white-space: normal;
+  }
+
+  .colorInput > input {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .colors-list__color {
+    font-size: 0.92rem;
+  }
 }

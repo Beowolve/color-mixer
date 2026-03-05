@@ -170,13 +170,29 @@ class ColorMixer extends React.Component {
         return [r, g, b];
     }
 
+    toCssColor(color, fallback) {
+        if (!Array.isArray(color) || color.length < 3) {
+            return fallback;
+        }
+
+        const [r, g, b, a = 1] = color;
+        return `rgba(${r}, ${g}, ${b}, ${a})`;
+    }
+
     render() {
-        const {backgroundColor, foregroundColor, colors} = this.state;
+        const {backgroundColor, foregroundColor, rgbBackgroundColor, rgbForegroundColor, colors} = this.state;
+        const backgroundPreviewColor = this.toCssColor(rgbBackgroundColor, DEFAULT_BACKGROUND_COLOR);
+        const targetPreviewColor = this.toCssColor(rgbForegroundColor, DEFAULT_FOREGROUND_COLOR);
         return (
             <div>
-                <div className="colorInputContainer" style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', margin: '1em 0' }}>
-                    <div className="colorInput" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                <div className="colorInputContainer">
+                    <div className="colorInput">
                         <label htmlFor="bgColor">Background</label>
+                        <div
+                            className="inputColorSwatch"
+                            aria-label="Background color preview"
+                            style={{"--preview-color": backgroundPreviewColor}}
+                        ></div>
                         <input
                             name="bgColor"
                             className="backgroundColor colorInputField"
@@ -193,12 +209,17 @@ class ColorMixer extends React.Component {
                                 onClick={this.clearBackgroundColor}
                                 className="clearInputBtn"
                             >
-                                ×
+                                x
                             </button>
                         )}
                     </div>
-                    <div className="colorInput" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                    <div className="colorInput">
                         <label htmlFor="targetColor">Target</label>
+                        <div
+                            className="inputColorSwatch"
+                            aria-label="Target color preview"
+                            style={{"--preview-color": targetPreviewColor}}
+                        ></div>
                         <input
                             name="targetColor"
                             className="foregroundColor colorInputField"
@@ -215,7 +236,7 @@ class ColorMixer extends React.Component {
                                 onClick={this.clearForegroundColor}
                                 className="clearInputBtn"
                             >
-                                ×
+                                x
                             </button>
                         )}
                     </div>
@@ -257,3 +278,4 @@ class ColorMixer extends React.Component {
 }
 
 export default ColorMixer;
+
