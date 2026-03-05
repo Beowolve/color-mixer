@@ -63,26 +63,6 @@ npm test
 npm run eject
 ```
 
-## Project Structure
-
-```text
-color-mixer/
-|-- public/              # Static assets
-|   |-- index.html       # HTML template
-|   |-- manifest.json    # PWA manifest
-|   `-- rgb.png          # Favicon
-|-- src/
-|   |-- components/
-|   |   |-- ColorMixer.js   # Main component for color mixing
-|   |   `-- ColorMixer.css  # Styles for ColorMixer
-|   |-- App.js           # Root component
-|   |-- index.js         # Entry point
-|   `-- styles.css       # Global styles
-|-- config-overrides.js  # Webpack configuration for Preact aliasing
-|-- package.json         # Project dependencies and scripts
-`-- .gitignore           # Git ignore file
-```
-
 ## How It Works
 
 1. **Color input**: Users enter a background color and a target color
