@@ -138,9 +138,6 @@
   border-radius: 0;
   border: 1px solid var(--group-border);
   background: var(--preview-color);
-  /*box-shadow: inset 0 0 0 1px rgb(255 255 255 / 20%);
-
-   */
 }
 
 .colorInputField {
@@ -216,6 +213,109 @@
   z-index: 2;
 }
 
+.mixModeControl {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.mixModeText {
+  color: var(--group-color);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.mixModeHint {
+  cursor: help;
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+}
+
+.mixModeSeparator {
+  color: var(--secondary-color, var(--group-color));
+}
+
+.mixModeSwitch {
+  position: relative;
+  display: inline-block;
+  width: 38px;
+  height: 22px;
+}
+
+.mixModeSwitch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.mixModeSlider {
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+  background-color: var(--group-border);
+  transition: 0.2s;
+  border-radius: 999px;
+}
+
+.mixModeSlider::before {
+  content: "";
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  top: 3px;
+  background-color: #fff;
+  transition: 0.2s;
+  border-radius: 50%;
+}
+
+.mixModeSwitch input:checked + .mixModeSlider {
+  background-color: var(--input-border-focus);
+}
+
+.mixModeSwitch input:checked + .mixModeSlider::before {
+  transform: translateX(16px);
+}
+
+.copyToast {
+  position: fixed;
+  right: 14px;
+  top: 14px;
+  z-index: 1200;
+  max-width: min(320px, calc(100vw - 28px));
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.35;
+  box-shadow: 0 10px 24px rgb(0 0 0 / 30%);
+  pointer-events: none;
+  animation: copyToastIn 0.18s ease-out;
+}
+
+.copyToast--success {
+  background: #2f8f4e;
+}
+
+.copyToast--error {
+  background: #c63838;
+}
+
+@keyframes copyToastIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 .header-row {
   background: var(--group-background);
   color: var(--group-color);
@@ -261,6 +361,12 @@
   .colorInput > input {
     width: 100%;
     min-width: 0;
+  }
+
+  .mixModeControl {
+    width: 100%;
+    margin-left: 0;
+    justify-content: flex-end;
   }
 
   .colors-list__color {
