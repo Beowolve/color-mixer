@@ -1,91 +1,94 @@
-﻿# Color Mixer
+# Color Mixer
 
 An interactive web tool for mixing colors and finding optimal color combinations.
 
-## Description
-
-Color Mixer is a React-based web application that lets you mix background and foreground colors and find the best RGB/RGBA color codes that most closely match a target color. The tool calculates color blending with alpha transparency and displays results with minimal color deviation.
-
 ## Features
 
-- **Interactive color input**: Enter background and target colors
-- **Automatic color calculation**: Finds the 25 best color combinations
-- **Copy to clipboard**: Click a color code to copy it to the clipboard
-- **Difference display**: Shows RGB differences and total deviation
-- **Optimized performance**: Uses Preact as a lightweight React alternative
-- **Clear buttons**: Quickly reset input fields
+- Interactive background and target color inputs
+- Single and double overlay blend modes (persisted in local storage)
+- Automatic calculation of top 25 matching shorthand RGB/RGBA values
+- Click-to-copy color code with toast notification feedback
+- Light, dark, and system theme support
+- Header version label sourced directly from `package.json`
 
 ## Technology Stack
 
-- **React 18.2.0** - UI framework (aliased to Preact for optimized bundle size)
-- **Preact 10.27.0** - Lightweight React alternative
-- **color-string** - Color conversion and parsing
-- **React Scripts 5.0.1** - Build tools and development server
-- **react-app-rewired** - Webpack configuration without eject
-- **customize-cra** - Custom Webpack configuration
+- React 18
+- Vite 7
+- TypeScript (strict mode)
+- Vitest for unit tests
+- `color-string` for color parsing and conversion
 
 ## Installation
-
-1. Clone the repository:
-
-```bash
-git clone <repository-url>
-cd color-mixer
-```
-
-2. Install dependencies:
 
 ```bash
 npm install
 ```
 
-3. Start the development server:
+## Development
 
 ```bash
-npm start
+npm run dev
 ```
 
-The application will then be available at `http://localhost:3000`.
+The app runs at `http://localhost:5173` by default.
 
-## Available Scripts
+## Scripts
 
 ```bash
 # Start development server
+npm run dev
+
+# Alias for development server
 npm start
 
-# Create production build
+# Build production bundle
 npm run build
 
-# Run tests
-npm test
+# Preview production build locally
+npm run preview
 
-# Eject React Scripts (not recommended)
-npm run eject
+# Run tests once
+npm run test
+
+# Type check TypeScript
+npm run typecheck
+
+# Lint TypeScript sources
+npm run lint
+
+# Auto-fix lint issues
+npm run format
 ```
 
-## How It Works
+## Release Process
 
-1. **Color input**: Users enter a background color and a target color
-2. **Color calculation**: The application computes all possible 3-digit hex color codes (with optional alpha transparency)
-3. **Blending**: For each color, blending with the background color is simulated
-4. **Sorting**: Results are sorted by the smallest deviation from the target color
-5. **Display**: The top 25 results are shown with RGB differences
+- Follow repository rules in `AGENTS.md`.
+- Keep `CHANGELOG.md` and `package.json` in sync before release.
+- Create release tags in format `v*.*.*` (example: `v1.2.0`).
+
+## CI/CD
+
+- `CI` workflow runs typecheck, lint, tests, and build on pushes/PRs to `main`.
+- `Release` workflow runs on `v*.*.*` tags, generates release notes, publishes GitHub Releases, and deploys via FTP.
+
+## Reusable Release Actions
+
+The release workflow is built from reusable actions under `.github/actions`:
+
+- `build-react-app`
+- `generate-release-notes`
+- `notify-discord-release`
+- `deploy-ftp`
+
+Manual FTP deploy is available via **Actions -> Release -> Run workflow** and optional `ref` input.
 
 ## Browser Support
 
 - Chrome/Edge (modern versions)
 - Firefox (modern versions)
 - Safari (modern versions)
-- No support for IE11 and Opera Mini
-
-## Author
-
-**Beo**
 
 ## License
 
 This project is open source.
-
----
-
-*RGB icons created by Freepik - Flaticon*
