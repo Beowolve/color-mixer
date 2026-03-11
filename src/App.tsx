@@ -1,7 +1,8 @@
 import "./styles.css";
 
 import { useEffect, useState } from "react";
-import ColorMixer from "./components/ColorMixer.js";
+import type { ChangeEvent } from "react";
+import ColorMixer from "./components/ColorMixer";
 import "./components/ColorMixer.css";
 
 const THEME_KEY = "color-mixer.theme";
@@ -9,9 +10,11 @@ const THEME_OPTIONS = {
   SYSTEM: "system",
   LIGHT: "light",
   DARK: "dark"
-};
+} as const;
 
-function resolveTheme(mode) {
+type ThemeMode = (typeof THEME_OPTIONS)[keyof typeof THEME_OPTIONS];
+
+function resolveTheme(mode: ThemeMode): Exclude<ThemeMode, "system"> {
   if (mode === THEME_OPTIONS.DARK) {
     return THEME_OPTIONS.DARK;
   }
@@ -25,15 +28,21 @@ function resolveTheme(mode) {
     : THEME_OPTIONS.LIGHT;
 }
 
-export default function App() {
-  const [themeMode, setThemeMode] = useState(() => {
-    const saved = window.localStorage.getItem(THEME_KEY);
-    if (saved === THEME_OPTIONS.DARK || saved === THEME_OPTIONS.LIGHT || saved === THEME_OPTIONS.SYSTEM) {
-      return saved;
-    }
-
+function readInitialThemeMode(): ThemeMode {
+  if (typeof window === "undefined") {
     return THEME_OPTIONS.SYSTEM;
-  });
+  }
+
+  const saved = window.localStorage.getItem(THEME_KEY);
+  if (saved === THEME_OPTIONS.DARK || saved === THEME_OPTIONS.LIGHT || saved === THEME_OPTIONS.SYSTEM) {
+    return saved;
+  }
+
+  return THEME_OPTIONS.SYSTEM;
+}
+
+export default function App() {
+  const [themeMode, setThemeMode] = useState<ThemeMode>(readInitialThemeMode);
 
   useEffect(() => {
     const applyTheme = () => {
@@ -55,21 +64,30 @@ export default function App() {
     };
   }, [themeMode]);
 
+  const handleThemeChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const nextTheme = event.target.value;
+
+    if (nextTheme === THEME_OPTIONS.DARK || nextTheme === THEME_OPTIONS.LIGHT || nextTheme === THEME_OPTIONS.SYSTEM) {
+      setThemeMode(nextTheme);
+    }
+  };
+
   return (
     <div className="App">
       <div className="top"></div>
       <header className="appHeader">
         <div className="appBrand">
-          <img className="appLogo" src={`${process.env.PUBLIC_URL}/rgb.png`} alt="RGB logo" />
-          <div className="appTitle">Color Mixer</div>
+          <img className="appLogo" src={`${import.meta.env.BASE_URL}rgb.png`} alt="RGB logo" />
+          <div className="appBrandMeta">
+            <div className="appTitle">Color Mixer</div>
+            <div className="appVersion" aria-label="Application version">
+              v{__APP_VERSION__}
+            </div>
+          </div>
         </div>
         <label className="themeSwitch" htmlFor="themeMode">
           Theme
-          <select
-            id="themeMode"
-            value={themeMode}
-            onChange={(event) => setThemeMode(event.target.value)}
-          >
+          <select id="themeMode" value={themeMode} onChange={handleThemeChange}>
             <option value={THEME_OPTIONS.SYSTEM}>System</option>
             <option value={THEME_OPTIONS.LIGHT}>Light</option>
             <option value={THEME_OPTIONS.DARK}>Dark</option>
@@ -79,7 +97,7 @@ export default function App() {
 
       <main className="content">
         <ColorMixer />
-        <div className="infoText">You can click the color code to copy it.</div>
+        <div className="infoText">Click a color code to copy it to the clipboard.</div>
       </main>
 
       <footer className="footer">
